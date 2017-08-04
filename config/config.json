@@ -1,0 +1,15 @@
+[
+    {
+        "connection_name": "darkscience_new",
+        "connection_address" : "irc.darkscience.net",
+        "connection_port" : 6697,
+        "connection_use_ssl" : 1,
+
+        "bot_nick": "Pennywise",
+        "bot_ident": "Pennywise",
+        "bot_default_channels": [
+            "#bots",
+            "#treehouse"
+        ]
+    }
+]
