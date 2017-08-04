@@ -1,0 +1,8 @@
+{
+    "author": "Mantis",
+    "author_email" : "rclifford@cybershade.org",
+    "commands" : [
+        "test"
+    ],
+    "access_level" : ["admin"]
+}

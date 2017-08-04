@@ -1,5 +1,6 @@
 from classes.irc import IRC
 from classes.config import Config
+from classes.plugins import Plugins
 
 import argparse
 import json
@@ -7,8 +8,10 @@ import json
 def main():
     parser = argparse.ArgumentParser(description='Arguments for Pennywise')
     parser.add_argument('-c', '--connection-name', required=True, help='Connection name')
+    parser.add_argument('-v', '--verbose', help='Connection name')
     arguments = parser.parse_args()
-    print arguments.connection_name
+
+    verbose = arguments.verbose
 
     config = Config(arguments.connection_name)
 
@@ -25,21 +28,26 @@ def main():
     ircBot = IRC()
     pennywise = ircBot.create_instance(server, port, use_ssl, bot_name, bot_ident)
 
-    i = 0
+    plugins = Plugins()
+    plugins.load_modules()
 
+
+    i = 0
     while True:
         data = pennywise.server_get_data()
-        print data
+        if verbose:
+            print data
+
+        plugins.process_command(data)
 
         # Reply with ping
         if data[:4] == 'PING':
-            pennywise.server_send_data(("PONG %s" % data.split(' ')[1]))
+            pennywise.send_pong(data)
 
         # Join Channels
         if i == 10:
             for channel in json.loads(default_channels):
-                pennywise.server_send_data(("JOIN %s" % (channel,)))
-                pennywise.say("#treehouse", "What's up! :)")
+                pennywise.join(channel)
 
         i = i+1
 

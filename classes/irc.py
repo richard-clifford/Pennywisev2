@@ -37,22 +37,26 @@ class IRC:
     def server_get_data(self):
         return self._connection.recv(2048).decode("UTF-8")
 
-    def set_nick(self, nick):
-        pass
-
     def say(self, channel, message):
-        return self.server_send_data("PRIVMSG %s :%s" % (channel, message))
+        return self.server_send_data("PRIVMSG %s :%s" % (channel, message,))
 
     def join(self, channel):
-        return self.server_send_data("JOIN %s", % (channel))
+        return self.server_send_data("JOIN %s" % (channel,))
 
-    def join(self, channel):
-        return self.server_send_data("PART %s", % (channel))
+    def part(self, channel, message=None):
+        return self.server_send_data("PART %s %s" % (channel, message,))
+
+    def quit(self, channel, message=None):
+        return self.server_send_data("PART %s %s" % (channel, message,))
+
+    def change_nick(self, nick):
+        return self.server_send_data("NICK %s" % (nick,))
+
+    def send_pong(self, data):
+        return self.server_send_data(("PONG %s" % data.split(' ')[1]))
 
     def create_instance(self, server="irc.darkscience.net", port=6697, use_ssl=True, nick="Pennywise", ident="Pennywise"):
-        connection = self.raw_connect("irc.darkscience.net", 6697, True)
+        connection = self.raw_connect(server, port, True)
         connection.server_send_data("USER %s %s %s :%s" % (ident,ident,ident,ident,))
         connection.server_send_data("NICK Pennywise")
         return connection
-
-

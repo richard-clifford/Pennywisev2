@@ -1,0 +1,10 @@
+{
+    "module_name": "admin",
+    "author": "Mantis",
+    "author_email" : "rclifford@cybershade.org",
+    "commands" : [
+        "test",
+        "test command 2"
+    ],
+    "access_level" : ["admin"]
+}
